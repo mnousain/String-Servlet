@@ -90,27 +90,9 @@ private void PrintHead(PrintWriter out)
     out.println("<link rel=\"stylesheet\" href=\"" + Style  + "\">");
 
 
-    out.println("<script>");
-    out.println("function addRow()");
-    out.println("{");
-    
-    out.println("var oRow = document.getElementById(\"dyntbl1\").insertRow(document.getElementById(\"dyntbl1\").rows.length);");
-    out.println("oRow.onmouseover=function(){document.getElementById(\"dyntbl1\").clickedRowIndex=this.rowIndex;};");
-    out.println("var oCell1 = oRow.insertCell(0);");
-    out.println("var oCell2 = oRow.insertCell(1);");
-    out.println("oCell1.innerHTML = \"<input type=text name=string[]>\";");
-    out.println("oCell2.innerHTML = \"<input type=button value=\" X \"  onClick=\"delRow()\">\";");
-    out.println("");
-    
-    out.println("}");
-
-    out.println("function delRow()");
-    out.println("{");
-
-    out.println("document.getElementById(\"dyntbl1\").deleteRow(document.getElementById(\"dyntbl1\").clickedRowIndex);");
-
-    out.println("}");
-
+    out.println("<script language=\"JavaScript\">");
+    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/javascript/table.js");
+    requestDispatcher.include(request, response);
     out.println("</script>");
 
     out.println("</head>");
