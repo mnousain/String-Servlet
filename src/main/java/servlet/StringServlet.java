@@ -80,7 +80,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
 /** *****************************************************
  *  Prints the <head> of the HTML page, no <body>.
 ********************************************************* */
-private void PrintHead(PrintWriter out, HttpServletRequest request, HttpServletResponse response)
+private void PrintHead(PrintWriter out, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 {
     out.println("<html>");
     out.println("");
