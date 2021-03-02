@@ -63,7 +63,7 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
 
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
-    PrintHead(out);
+    PrintHead(out, request, response);
     PrintBody(out, processedResult); // pass in the processed result so it can be printed
     PrintTail(out);
 }  // End doPost
@@ -72,7 +72,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
 {
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
-    PrintHead(out);
+    PrintHead(out, request, response);
     PrintBody(out);
     PrintTail(out);
 } // End doGet
@@ -80,7 +80,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
 /** *****************************************************
  *  Prints the <head> of the HTML page, no <body>.
 ********************************************************* */
-private void PrintHead(PrintWriter out)
+private void PrintHead(PrintWriter out, HttpServletRequest request, HttpServlet response)
 {
     out.println("<html>");
     out.println("");
