@@ -80,7 +80,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
 /** *****************************************************
  *  Prints the <head> of the HTML page, no <body>.
 ********************************************************* */
-private void PrintHead(PrintWriter out, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+private void PrintHead(PrintWriter out)
 {
     out.println("<html>");
     out.println("");
@@ -89,13 +89,8 @@ private void PrintHead(PrintWriter out, HttpServletRequest request, HttpServletR
     out.println("<title>String Servlet</title>");
     out.println("<link rel=\"stylesheet\" href=\"" + Style  + "\">");
 
-
-    out.println("<script language=\"JavaScript\">");
-    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/javascript/table.js");
-    requestDispatcher.include(request, response);
-    out.println("</script>");
-
     out.println("</head>");
+    out.println(""):
 } // End PrintHead
 
 private void PrintBody(PrintWriter out, String displayedResult)
