@@ -63,7 +63,7 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
 
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
-    PrintHead(out, request, response);
+    PrintHead(out);
     PrintBody(out, processedResult); // pass in the processed result so it can be printed
     PrintTail(out);
 }  // End doPost
@@ -72,7 +72,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
 {
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
-    PrintHead(out, request, response);
+    PrintHead(out);
     PrintBody(out);
     PrintTail(out);
 } // End doGet
@@ -90,7 +90,7 @@ private void PrintHead(PrintWriter out)
     out.println("<link rel=\"stylesheet\" href=\"" + Style  + "\">");
 
     out.println("</head>");
-    out.println(""):
+    out.println("");
 } // End PrintHead
 
 private void PrintBody(PrintWriter out, String displayedResult)
