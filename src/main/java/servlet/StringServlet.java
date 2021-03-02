@@ -39,14 +39,13 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
     String returnString = "";
     if (selectedOption != null) {
         if (selectedOption.equals("random") || selectedOption.equals("with")) { // Return one random string (eg, “Grace”), with replacement
-            int random = (int)(Math.random()*allVals.length);
-
+            returnString = allVals_AL.get((int)(Math.random()*allVals.length));
         } else if (selectedOption.equals("without")) { // Return one random string (eg, “Grace”), without replacement
-
+            returnString = allVals_AL.remove((int)(Math.random()*allVals.length));
         } else if (selectedOption.equals("sort")) { // Return the strings in sorted order (eg, “Anita,” “Grace,” “Julia,” “Kent,” “Tim”)
-
+            Collections.sort(allVals_AL);
         } else if (selectedOption.equals("reverse")) { // Return the strings in reverse-sorted order (eg, “Tim,” “Kent,” “Julia,” “Grace,” “Anita”)
-
+            Collections.reverse(allVals_AL);
         }
     }
 
@@ -54,10 +53,7 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
     // construct the result as a string that will be displayed on the page
     StringBuffer sb = new StringBuffer();
     sb.append("<b>Result:</b><br><br>");
-    for (String s : allVals_AL) {
-        sb.append(s);
-        sb.append("<br>");
-    }
+    sb.append(returnString);
     String processedResult = sb.toString();
 
     response.setContentType("text/html");
