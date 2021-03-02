@@ -22,6 +22,7 @@ static String debugPath    = "";
 static String debugServlet = "";
 
 static String Style = "https://mason.gmu.edu/~mnousain/style.css";
+static String Script = "https://mason.gmu.edu/~mnousain/table.js";
 
 public void doPost (HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException
@@ -88,7 +89,7 @@ private void PrintHead(PrintWriter out)
     out.println("<head>");
     out.println("<title>String Servlet</title>");
     out.println("<link rel=\"stylesheet\" href=\"" + Style  + "\">");
-
+    out.println("<script type=\"text/javascript\" src=\"" + Script + "\"></script>");
     out.println("</head>");
     out.println("");
 } // End PrintHead
