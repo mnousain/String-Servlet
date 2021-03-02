@@ -59,7 +59,7 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
     PrintHead(out);
-    PrintBody(out, processedResult, (String[]) allVals_AL.toArray()); // pass in the processed result so it can be printed
+    PrintBody(out, processedResult, allVals_AL.toArray(new String[0])); // pass in the processed result so it can be printed
     PrintTail(out);
 }  // End doPost
 
