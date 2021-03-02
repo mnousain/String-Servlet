@@ -45,7 +45,7 @@ private void PrintHead(PrintWriter out)
     out.println("var oCell1 = oRow.insertCell(0);");
     out.println("var oCell2 = oRow.insertCell(1);");
     out.println("oCell1.innerHTML = \"<input type=text name=string[]>\";");
-    out.println("oCell2.innerHTML = \"<input type=button value=\\" + "\" X \\" + "\" onClick=\\" + "\"delRow()\\" + "\">\";");
+    out.println("oCell2.innerHTML = \"<input type=button value=\" X \"  onClick=\"delRow()\">\";");
     out.println("");
     
     out.println("}");
