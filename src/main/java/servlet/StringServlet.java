@@ -36,19 +36,17 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
 
     // Check what radio button option was selected and process the allVals_AL as appropriate
     String selectedOption = request.getParameter("option");
+    String returnString = "";
     if (selectedOption != null) {
-        if (selectedOption.equals("random")) { // Return one random string (eg, “Grace”), with replacement
-            // TODO: implement this
+        if (selectedOption.equals("random") || selectedOption.equals("with")) { // Return one random string (eg, “Grace”), with replacement
+            int random = (int)(Math.random()*allVals.length);
 
-        } else if (selectedOption.equals("replacement")) { // Return one random string (eg, “Grace”), without replacement 
-            // TODO: implement this
+        } else if (selectedOption.equals("without")) { // Return one random string (eg, “Grace”), without replacement
 
         } else if (selectedOption.equals("sort")) { // Return the strings in sorted order (eg, “Anita,” “Grace,” “Julia,” “Kent,” “Tim”)
-            // TODO: implement this
 
         } else if (selectedOption.equals("reverse")) { // Return the strings in reverse-sorted order (eg, “Tim,” “Kent,” “Julia,” “Grace,” “Anita”)
-            // TODO: implement this
-            
+
         }
     }
 
@@ -65,7 +63,7 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
     PrintHead(out);
-    PrintBody(out, processedResult); // pass in the processed result so it can be printed
+    PrintBody(out, processedResult, (String[]) allVals_AL.toArray()); // pass in the processed result so it can be printed
     PrintTail(out);
 }  // End doPost
 
@@ -94,7 +92,7 @@ private void PrintHead(PrintWriter out)
     out.println("");
 } // End PrintHead
 
-private void PrintBody(PrintWriter out, String displayedResult)
+private void PrintBody(PrintWriter out, String displayedResult, String[] inputs)
 {
     out.println("<body>");
     out.println("<h1 align=\"center\">SWE-432: Assignment 4</h1>");
@@ -115,10 +113,21 @@ private void PrintBody(PrintWriter out, String displayedResult)
     out.println("<th><input type=button value=\" + \" onClick=\"addRow()\"></th>");
     out.println("</tr>");
 
-    out.println("<tr onMouseOver=\"dyntbl1.clickedRowIndex=this.rowIndex\">");
-    out.println("<td><input type=\"text\" name=\"string[]\"></td>");
-    out.println("<td><input type=button name=dyntbl1_delRow value=\" x \" onClick=\"delRow()\"></td>");
-    out.println("</tr>");
+    if (inputs == null || inputs.length == 0) {
+        out.println("<tr onMouseOver=\"dyntbl1.clickedRowIndex=this.rowIndex\">");
+        out.println("<td><input type=\"text\" name=\"string[]\"></td>");
+        out.println("<td><input type=button name=dyntbl1_delRow value=\" x \" onClick=\"delRow()\"></td>");
+        out.println("</tr>");
+    }
+    else {
+        for (int i = 0; i < inputs.length; i++) {
+            out.println("<tr onMouseOver=\"dyntbl1.clickedRowIndex=this.rowIndex\">");
+            out.println(String.format("<td><input type=\"text\" name=\"string[]\" value=\"%s\"></td>", inputs[i]));
+            out.println("<td><input type=button name=dyntbl1_delRow value=\" x \" onClick=\"delRow()\"></td>");
+            out.println("</tr>");
+
+        }
+    }
 
     out.println("</table>");
     out.println("");
@@ -128,9 +137,12 @@ private void PrintBody(PrintWriter out, String displayedResult)
     out.println("<input type=\"radio\" id=\"random\" name=\"option\" value=\"random\">");
     out.println("<label for=\"random\">Random</label><br>");
 
-    out.println("<input type=\"radio\" id=\"replacement\" name=\"option\" value=\"replacement\">");
-    out.println("<label for=\"replacement\">With and without replacement</label><br>");
-    
+    out.println("<input type=\"radio\" id=\"replacement\" name=\"option\" value=\"with\">");
+    out.println("<label for=\"replacement\">With replacement</label><br>");
+
+    out.println("<input type=\"radio\" id=\"replacement\" name=\"option\" value=\"without\">");
+    out.println("<label for=\"replacement\">Without replacement</label><br>");
+
     out.println("<input type=\"radio\" id=\"sort\" name=\"option\" value=\"sort\">");
     out.println("<label for=\"sort\">Sort</label><br>");
 
@@ -140,12 +152,12 @@ private void PrintBody(PrintWriter out, String displayedResult)
     out.println("<br>");
     out.println("<input type=\"submit\" name=\"Submit\" value=\"Submit Strings\">");
 
-    out.println("</form>");
-
     // Print the result
     // out.println("<h3>Result:</h3>");
     // out.println("");
     out.println("<p>" + displayedResult + "</p>");
+    out.println("</form>");
+
 
     out.println("</center>");
     out.println("");
@@ -160,7 +172,7 @@ private void PrintBody(PrintWriter out, String displayedResult)
 ********************************************************* */
 private void PrintBody (PrintWriter out)
 {
-   PrintBody(out, "");
+   PrintBody(out, "", null);
 }
 
 private void PrintTail(PrintWriter out)
