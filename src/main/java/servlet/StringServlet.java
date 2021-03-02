@@ -109,14 +109,17 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs)
     out.println("<th><input type=button value=\" + \" onClick=\"addRow()\"></th>");
     out.println("</tr>");
 
-    if (inputs == null || inputs.length == 0) {
+    if (inputs == null || inputs.length == 0) 
+    {
         out.println("<tr onMouseOver=\"dyntbl1.clickedRowIndex=this.rowIndex\">");
         out.println("<td><input type=\"text\" name=\"string[]\"></td>");
         out.println("<td><input type=button name=dyntbl1_delRow value=\" x \" onClick=\"delRow()\"></td>");
         out.println("</tr>");
     }
-    else {
-        for (int i = 0; i < inputs.length; i++) {
+    else 
+    {
+        for (int i = 0; i < inputs.length; i++) 
+        {
             out.println("<tr onMouseOver=\"dyntbl1.clickedRowIndex=this.rowIndex\">");
             out.println(String.format("<td><input type=\"text\" name=\"string[]\" value=\"%s\"></td>", inputs[i]));
             out.println("<td><input type=button name=dyntbl1_delRow value=\" x \" onClick=\"delRow()\"></td>");
