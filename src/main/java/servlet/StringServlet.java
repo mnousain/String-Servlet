@@ -37,6 +37,8 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
     // Check what radio button option was selected and process the allVals_AL as appropriate
     String selectedOption = request.getParameter("option");
     String returnString = "";
+    // Check if the checkbox is toggled on
+    String selectedCheckbox = request.getParameter("check");
     if (selectedOption != null) {
         if (selectedOption.equals("random") || selectedOption.equals("with")) { // Return one random string (eg, “Grace”), with replacement
             returnString = allVals_AL.get((int)(Math.random()*allVals.length));
@@ -44,8 +46,27 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
             returnString = allVals_AL.remove((int)(Math.random()*allVals.length));
         } else if (selectedOption.equals("sort")) { // Return the strings in sorted order (eg, “Anita,” “Grace,” “Julia,” “Kent,” “Tim”)
             Collections.sort(allVals_AL);
+            if (selectedCheckbox != null) { // If not null, this means the checkbox is enabled, so we should remove duplicate entries
+                ArrayList<String> allVals_AL_temp = new ArrayList<>();
+                for (String currVal : allVals_AL) {
+                    if (!allVals_AL_temp.contains(currVal)) { // Create a new array and add first occurrence of each string
+                        allVals_AL_temp.add(currVal);
+                    }
+                }
+                allVals_AL = allVals_AL_temp; // Set original array equal to new array
+            }
         } else if (selectedOption.equals("reverse")) { // Return the strings in reverse-sorted order (eg, “Tim,” “Kent,” “Julia,” “Grace,” “Anita”)
+            Collections.sort(allVals_AL);
             Collections.reverse(allVals_AL);
+            if (selectedCheckbox != null) { // If not null, this means the checkbox is enabled, so we should remove duplicate entries
+                ArrayList<String> allVals_AL_temp = new ArrayList<>();
+                for (String currVal : allVals_AL) {
+                    if (!allVals_AL_temp.contains(currVal)) { // Create a new array and add first occurrence of each string
+                        allVals_AL_temp.add(currVal);
+                    }
+                }
+                allVals_AL = allVals_AL_temp; // Set original array equal to new array
+            }
         }
     }
 
@@ -99,8 +120,8 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs)
     out.println("<h2>Create a List of Strings</h2>");
     out.println("<p>Enter a list of strings in the table below. Click the \"+\" key to add a row, and click the \"x\" key to delete a row </p>");
     out.println("<form method=\"post\"");
-    out.println(" action=\"https://" + Domain + Path + Servlet + "\">");                        // NOTE: This line is for publishing. Uncomment this before you push & deploy.
-    // out.println(" action=\"http://" + debugDomain + debugPath + debugServlet + "\">");       // NOTE: This line is for local debugging. Uncomment this when doing local tests.
+    // out.println(" action=\"https://" + Domain + Path + Servlet + "\">");                        // NOTE: This line is for publishing. Uncomment this before you push & deploy.
+    out.println(" action=\"http://" + debugDomain + debugPath + debugServlet + "\">");       // NOTE: This line is for local debugging. Uncomment this when doing local tests.
     out.println("");
 
     out.println("<table id=dyntbl1 border=1>");
@@ -147,6 +168,10 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs)
 
     out.println("<input type=\"radio\" id=\"reverse\" name=\"option\" value=\"reverse\">");
     out.println("<label for=\"reverse\">Reverse Sort</label><br>");
+
+    out.println("<br>");
+    out.println("<input type=\"checkbox\" id=\"noDuplicates\" name=\"check\" value=\"noDuplicates\">");
+    out.println("<label for=\"noDuplicates\">Remove Duplicate Entries (when sorting)</label><br>");
 
     out.println("<br>");
     out.println("<input type=\"submit\" name=\"Submit\" value=\"Submit Strings\">");
