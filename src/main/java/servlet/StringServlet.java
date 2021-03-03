@@ -72,10 +72,13 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
 
     // After processing allVals_AL according to the selected radio button option,
     // construct the result as a string that will be displayed on the page
-    StringBuffer sb = new StringBuffer();
-    sb.append("<b>Result:</b><br><br>");
-    sb.append(returnString);
-    String processedResult = sb.toString();
+    String processedResult = "";
+    if (!returnString.equals("")) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("<b>Result:</b><br><br>");
+        sb.append(returnString);
+        processedResult = sb.toString();
+    }
 
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
@@ -120,8 +123,8 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs)
     out.println("<h2>Create a List of Strings</h2>");
     out.println("<p>Enter a list of strings in the table below. Click the \"+\" key to add a row, and click the \"x\" key to delete a row </p>");
     out.println("<form method=\"post\"");
-    // out.println(" action=\"https://" + Domain + Path + Servlet + "\">");                        // NOTE: This line is for publishing. Uncomment this before you push & deploy.
-    out.println(" action=\"http://" + debugDomain + debugPath + debugServlet + "\">");       // NOTE: This line is for local debugging. Uncomment this when doing local tests.
+    out.println(" action=\"https://" + Domain + Path + Servlet + "\">");                        // NOTE: This line is for publishing. Uncomment this before you push & deploy.
+    // out.println(" action=\"http://" + debugDomain + debugPath + debugServlet + "\">");       // NOTE: This line is for local debugging. Uncomment this when doing local tests.
     out.println("");
 
     out.println("<table id=dyntbl1 border=1>");
@@ -152,7 +155,9 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs)
     out.println("</table>");
     out.println("");
 
-    out.println("<p>Please select an option</p>");
+    out.println("<h3>Please select an option</h3>");
+
+    out.println("<p><b>Return a string:</b></p>");
 
     out.println("<input type=\"radio\" id=\"random\" name=\"option\" value=\"random\">");
     out.println("<label for=\"random\">Random</label><br>");
@@ -162,6 +167,8 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs)
 
     out.println("<input type=\"radio\" id=\"replacement\" name=\"option\" value=\"without\">");
     out.println("<label for=\"replacement\">Without replacement</label><br>");
+
+    out.println("<p><b>Sort the list:</b></p>");
 
     out.println("<input type=\"radio\" id=\"sort\" name=\"option\" value=\"sort\">");
     out.println("<label for=\"sort\">Sort</label><br>");
