@@ -123,8 +123,8 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs)
     out.println("<h2>Create a List of Strings</h2>");
     out.println("<p>Enter a list of strings in the table below. Click the \"+\" key to add a row, and click the \"x\" key to delete a row </p>");
     out.println("<form method=\"post\"");
-    out.println(" action=\"https://" + Domain + Path + Servlet + "\">");                        // NOTE: This line is for publishing. Uncomment this before you push & deploy.
-    // out.println(" action=\"http://" + debugDomain + debugPath + debugServlet + "\">");       // NOTE: This line is for local debugging. Uncomment this when doing local tests.
+    out.println(" action=\"https://" + Domain + Path + Servlet + "\" onsubmit=\"return validateString()\">");                        // NOTE: This line is for publishing. Uncomment this before you push & deploy.
+    //out.println(" action=\"http://" + debugDomain + debugPath + debugServlet + "\" onsubmit=\"return validateString()\">");       // NOTE: This line is for local debugging. Uncomment this when doing local tests.
     out.println("");
 
     out.println("<table id=dyntbl1 border=1>");
