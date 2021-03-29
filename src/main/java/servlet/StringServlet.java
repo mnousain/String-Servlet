@@ -24,6 +24,87 @@ public class StringServlet extends HttpServlet
 static String Style = "https://mason.gmu.edu/~mnousain/style.css";
 static String Script = "https://mason.gmu.edu/~mnousain/table.js";
 
+static enum Data {AGE, NAME};
+static String RESOURCE_FILE = "entries.json";
+
+// Button labels
+static String OperationAdd = "Add";
+
+public class Entry {
+    String name;
+    Integer age;
+}
+
+public class Entries {
+    List<Entry> entries;
+}
+
+public class EntryManager {
+    private String filePath = null;
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+    
+    public Entries save(String name, Integer age){
+        Entries entries = getAll();
+        Entry newEntry = new Entry();
+        newEntry.name = name;
+        newEntry.age = age;
+        entries.entries.add(newEntry);
+        try {
+            FileWriter fileWriter = new FileWriter(filePath);
+            new Gson().toJson(entries, fileWriter);
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException ioException) {
+            return null;
+        }
+        return entries;
+    }
+
+    private Entries getAll(){
+        Entries entries =  entries = new Entries();
+        entries.entries = new ArrayList();
+
+        try {
+            File file = new File(filePath);
+            if(!file.exists()){
+                return entries;
+            }
+
+            BufferedReader bufferedReader =
+                new BufferedReader(new FileReader(file));
+            Entries readEntries =
+                new Gson().fromJson(bufferedReader, Entries.class);
+
+            if(readEntries != null && readEntries.entries != null){
+                entries = readEntries;
+            }
+            bufferedReader.close();
+
+        } catch(IOException ioException){
+        }
+
+        return entries;
+    }
+
+    public String getAllAsHTMLTable(Entries entries){
+        StringBuilder htmlOut = new StringBuilder("<table>");
+        htmlOut.append("<tr><th>Name</th><th>Age</th></tr>");
+        if(entries == null || entries.entries == null || entries.entries.size() == 0){
+            htmlOut.append("<tr><td>No entries yet.</td></tr>");
+        } else {
+            for(Entry entry: entries.entries){
+                htmlOut.append(
+                "<tr><td>"+entry.name+"</td><td>"+entry.age+"</td></tr>");
+            }
+        }
+        htmlOut.append("</table>");
+        return htmlOut.toString();
+    }
+}
+
 public void doPost (HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException
 {
