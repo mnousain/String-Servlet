@@ -7,6 +7,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
 
+import com.google.gson.Gson;
 
 public class StringServlet extends HttpServlet
 {
@@ -30,13 +31,8 @@ static String RESOURCE_FILE = "entries.json";
 // Button labels
 static String OperationAdd = "Add";
 
-public class Entry {
-    String name;
-    Integer age;
-}
-
 public class Entries {
-    List<Entry> entries;
+    List<String> entries;
 }
 
 public class EntryManager {
@@ -46,12 +42,9 @@ public class EntryManager {
         this.filePath = filePath;
     }
     
-    public Entries save(String name, Integer age){
-        Entries entries = getAll();
-        Entry newEntry = new Entry();
-        newEntry.name = name;
-        newEntry.age = age;
-        entries.entries.add(newEntry);
+    public Entries save(List<String> entriesToSave){
+        Entries entries = new Entries();
+        entries.entries = entriesToSave;
         try {
             FileWriter fileWriter = new FileWriter(filePath);
             new Gson().toJson(entries, fileWriter);
@@ -64,8 +57,8 @@ public class EntryManager {
     }
 
     private Entries getAll(){
-        Entries entries =  entries = new Entries();
-        entries.entries = new ArrayList();
+        Entries entries = new Entries();
+        entries.entries = new ArrayList<String>();
 
         try {
             File file = new File(filePath);
@@ -89,25 +82,13 @@ public class EntryManager {
         return entries;
     }
 
-    public String getAllAsHTMLTable(Entries entries){
-        StringBuilder htmlOut = new StringBuilder("<table>");
-        htmlOut.append("<tr><th>Name</th><th>Age</th></tr>");
-        if(entries == null || entries.entries == null || entries.entries.size() == 0){
-            htmlOut.append("<tr><td>No entries yet.</td></tr>");
-        } else {
-            for(Entry entry: entries.entries){
-                htmlOut.append(
-                "<tr><td>"+entry.name+"</td><td>"+entry.age+"</td></tr>");
-            }
-        }
-        htmlOut.append("</table>");
-        return htmlOut.toString();
-    }
 }
 
 public void doPost (HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException
 {
+
+    String error = "";
 
     // Grab the values of all oCell1 cells (the cells on the left-hand side) from the table. All of them share the same name: "string[]"
     String[] allVals = request.getParameterValues("string[]");
@@ -151,6 +132,10 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
         }
     }
 
+    EntryManager entryManager = new EntryManager();
+    entryManager.setFilePath(RESOURCE_FILE);
+    Entries newEntries = entryManager.save((List<String>)allVals_AL);
+
     // After processing allVals_AL according to the selected radio button option,
     // construct the result as a string that will be displayed on the page
     String processedResult = "";
@@ -161,10 +146,17 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
         processedResult = sb.toString();
     }
 
+    // out.println(getAllAsHTMLTable);
+
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
     PrintHead(out);
-    PrintBody(out, processedResult, allVals_AL.toArray(new String[0])); // pass in the processed result so it can be printed
+    if(newEntries == null) {
+        error += "<li>Could not save entries.</li>";
+        PrintBody(out, processedResult, allVals_AL.toArray(new String[0]), error);
+    } else {
+        PrintBody(out, processedResult, newEntries.entries.toArray(new String[0]), null); // pass in the processed result so it can be printed
+    }
     PrintTail(out);
 }  // End doPost
 
@@ -173,7 +165,16 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
     PrintHead(out);
-    PrintBody(out);
+
+    EntryManager entryManager = new EntryManager();
+    entryManager.setFilePath(RESOURCE_FILE);
+    Entries currEntries = entryManager.getAll();
+    if (currEntries == null) {
+        PrintBody(out);
+    } else {
+        PrintBody(out, "", currEntries.entries.toArray(new String[0]), null);
+    }
+
     PrintTail(out);
 } // End doGet
 
@@ -193,7 +194,7 @@ private void PrintHead(PrintWriter out)
     out.println("");
 } // End PrintHead
 
-private void PrintBody(PrintWriter out, String displayedResult, String[] inputs)
+private void PrintBody(PrintWriter out, String displayedResult, String[] inputs, String error)
 {
     out.println("<body>");
     out.println("<h1 align=\"center\">SWE-432: Assignment 4</h1>");
@@ -201,6 +202,16 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs)
     out.println("");
 
     out.println("<center>");
+
+    if(error != null && error.length() > 0){
+      out.println(
+      "<p style=\"color:red;\">Please correct the following and resubmit.</p>"
+      );
+      out.println("<ol>");
+      out.println(error);
+      out.println("</ol>");
+    }
+
     out.println("<h2>Create a List of Strings</h2>");
     out.println("<p>Enter a list of strings in the table below. Click the \"+\" key to add a row, and click the \"x\" key to delete a row </p>");
     out.println("<form method=\"post\"");
@@ -285,7 +296,7 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs)
 ********************************************************* */
 private void PrintBody (PrintWriter out)
 {
-   PrintBody(out, "", null);
+   PrintBody(out, "", null, null);
 }
 
 private void PrintTail(PrintWriter out)
