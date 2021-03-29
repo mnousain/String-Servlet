@@ -12,14 +12,14 @@ public class StringServlet extends HttpServlet
 {
 
 // Location of servlet.
-static String Domain  = "string-servlet.herokuapp.com";
-static String Path    = "";
-static String Servlet = "";
+// static String Domain  = "string-servlet.herokuapp.com";
+// static String Path    = "";
+// static String Servlet = "";
 
 // Location of servlet... when running it locally (make sure to uncomment the debug version of the "action=" out.println line below and comment out the regular version)
-static String debugDomain  = "localhost:5000";
-static String debugPath    = "";
-static String debugServlet = "";
+// static String debugDomain  = "localhost:5000";
+// static String debugPath    = "";
+// static String debugServlet = "";
 
 static String Style = "https://mason.gmu.edu/~mnousain/style.css";
 static String Script = "https://mason.gmu.edu/~mnousain/table.js";
@@ -123,8 +123,9 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs)
     out.println("<h2>Create a List of Strings</h2>");
     out.println("<p>Enter a list of strings in the table below. Click the \"+\" key to add a row, and click the \"x\" key to delete a row </p>");
     out.println("<form method=\"post\"");
-    out.println(" action=\"https://" + Domain + Path + Servlet + "\" onsubmit=\"return validateString()\">");                        // NOTE: This line is for publishing. Uncomment this before you push & deploy.
-    //out.println(" action=\"http://" + debugDomain + debugPath + debugServlet + "\" onsubmit=\"return validateString()\">");       // NOTE: This line is for local debugging. Uncomment this when doing local tests.
+
+    String url = "/"; // Relative path, so we don't need to change the url when switching between debug and deploy modes
+    out.println(" action=\"" + url + "\" onsubmit=\"return validateString()\">");
     out.println("");
 
     out.println("<table id=dyntbl1 border=1>");
