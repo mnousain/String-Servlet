@@ -31,18 +31,22 @@ static String RESOURCE_FILE = "entries.json";
 // Button labels
 static String OperationAdd = "Add";
 
-public class Entries {
+public class Entries 
+{
     List<String> entries;
 }
 
-public class EntryManager {
+public class EntryManager 
+{
     private String filePath = null;
 
-    public void setFilePath(String filePath) {
+    public void setFilePath(String filePath) 
+    {
         this.filePath = filePath;
     }
     
-    public Entries save(List<String> entriesToSave){
+    public Entries save(List<String> entriesToSave)
+    {
         
         Entries entries = new Entries();
         entries.entries = entriesToSave;
@@ -75,15 +79,20 @@ public class EntryManager {
 
             BufferedReader bufferedReader =
                 new BufferedReader(new FileReader(file));
+            
             Entries readEntries =
                 new Gson().fromJson(bufferedReader, Entries.class);
 
-            if(readEntries != null && readEntries.entries != null){
+            if(readEntries != null && readEntries.entries != null)
+            {
                 entries = readEntries;
             }
+            
             bufferedReader.close();
 
-        } catch(IOException ioException){
+        } 
+        catch(IOException ioException)
+        {
         }
 
         return entries;
@@ -167,7 +176,8 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
     // After processing allVals_AL according to the selected radio button option,
     // construct the result as a string that will be displayed on the page
     String processedResult = "";
-    if (!returnString.equals("")) {
+    if (!returnString.equals("")) 
+    {
         StringBuffer sb = new StringBuffer();
         sb.append("<b>Result:</b><br><br>");
         sb.append(returnString);
@@ -284,6 +294,7 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs,
 
     out.println("</table>");
     
+    out.println("<br>");    
     out.println("<input type=button name=clear value=\"Clear Strings\">");
     out.println("");
 
