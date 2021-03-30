@@ -280,7 +280,7 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs,
     }
     out.println("<tr>");
     out.println("<td><input type=button name=clear value=\"Clear Strings\"></td>");
-    out.println("</tr");
+    out.println("</tr>");
 
     out.println("</table>");
     out.println("");
