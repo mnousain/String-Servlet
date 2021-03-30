@@ -43,16 +43,23 @@ public class EntryManager {
     }
     
     public Entries save(List<String> entriesToSave){
+        
         Entries entries = new Entries();
         entries.entries = entriesToSave;
-        try {
+        
+        try 
+        {
             FileWriter fileWriter = new FileWriter(filePath);
             new Gson().toJson(entries, fileWriter);
+            
             fileWriter.flush();
             fileWriter.close();
-        } catch (IOException ioException) {
+        } 
+        catch (IOException ioException) 
+        {
             return null;
         }
+        
         return entries;
     }
 
@@ -101,32 +108,52 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
     String returnString = "";
     // Check if the checkbox is toggled on
     String selectedCheckbox = request.getParameter("check");
-    if (selectedOption != null) {
-        if (selectedOption.equals("random") || selectedOption.equals("with")) { // Return one random string (eg, “Grace”), with replacement
+    
+    if (selectedOption != null) 
+    {
+        if (selectedOption.equals("random") || selectedOption.equals("with")) 
+        { // Return one random string (eg, “Grace”), with replacement
             returnString = allVals_AL.get((int)(Math.random()*allVals.length));
-        } else if (selectedOption.equals("without")) { // Return one random string (eg, “Grace”), without replacement
+        } 
+        else if (selectedOption.equals("without")) 
+        { // Return one random string (eg, “Grace”), without replacement
             returnString = allVals_AL.remove((int)(Math.random()*allVals.length));
-        } else if (selectedOption.equals("sort")) { // Return the strings in sorted order (eg, “Anita,” “Grace,” “Julia,” “Kent,” “Tim”)
+        } 
+        else if (selectedOption.equals("sort")) 
+        { // Return the strings in sorted order (eg, “Anita,” “Grace,” “Julia,” “Kent,” “Tim”)
             Collections.sort(allVals_AL);
-            if (selectedCheckbox != null) { // If not null, this means the checkbox is enabled, so we should remove duplicate entries
+            
+            if (selectedCheckbox != null) 
+            { // If not null, this means the checkbox is enabled, so we should remove duplicate entries
                 ArrayList<String> allVals_AL_temp = new ArrayList<>();
-                for (String currVal : allVals_AL) {
-                    if (!allVals_AL_temp.contains(currVal)) { // Create a new array and add first occurrence of each string
+                
+                for (String currVal : allVals_AL) 
+                {
+                    if (!allVals_AL_temp.contains(currVal)) 
+                    { // Create a new array and add first occurrence of each string
                         allVals_AL_temp.add(currVal);
                     }
                 }
+                
                 allVals_AL = allVals_AL_temp; // Set original array equal to new array
             }
-        } else if (selectedOption.equals("reverse")) { // Return the strings in reverse-sorted order (eg, “Tim,” “Kent,” “Julia,” “Grace,” “Anita”)
+        } else if (selectedOption.equals("reverse")) 
+        { // Return the strings in reverse-sorted order (eg, “Tim,” “Kent,” “Julia,” “Grace,” “Anita”)
             Collections.sort(allVals_AL);
             Collections.reverse(allVals_AL);
-            if (selectedCheckbox != null) { // If not null, this means the checkbox is enabled, so we should remove duplicate entries
+            
+            if (selectedCheckbox != null) 
+            { // If not null, this means the checkbox is enabled, so we should remove duplicate entries
                 ArrayList<String> allVals_AL_temp = new ArrayList<>();
-                for (String currVal : allVals_AL) {
-                    if (!allVals_AL_temp.contains(currVal)) { // Create a new array and add first occurrence of each string
+                
+                for (String currVal : allVals_AL) 
+                {
+                    if (!allVals_AL_temp.contains(currVal)) 
+                    { // Create a new array and add first occurrence of each string
                         allVals_AL_temp.add(currVal);
                     }
                 }
+                
                 allVals_AL = allVals_AL_temp; // Set original array equal to new array
             }
         }
@@ -151,13 +178,18 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
     PrintHead(out);
-    if(newEntries == null) {
+    if(newEntries == null) 
+    {
         error += "<li>Could not save entries.</li>";
         PrintBody(out, processedResult, allVals_AL.toArray(new String[0]), error);
-    } else {
+    
+    } else 
+    {
         PrintBody(out, processedResult, newEntries.entries.toArray(new String[0]), null); // pass in the processed result so it can be printed
     }
+
     PrintTail(out);
+
 }  // End doPost
 
 public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -197,7 +229,7 @@ private void PrintHead(PrintWriter out)
 private void PrintBody(PrintWriter out, String displayedResult, String[] inputs, String error)
 {
     out.println("<body>");
-    out.println("<h1 align=\"center\">SWE-432: Assignment 4</h1>");
+    out.println("<h1 align=\"center\">SWE-432: Assignment 6</h1>");
     out.println("<h2 align=\"center\">Collaborators: Mason Nousain, Aaron Salenga, Taha Amir</h2>");
     out.println("");
 
@@ -214,6 +246,8 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs,
 
     out.println("<h2>Create a List of Strings</h2>");
     out.println("<p>Enter a list of strings in the table below. Click the \"+\" key to add a row, and click the \"x\" key to delete a row </p>");
+    out.println("<input type=button name=clear value=\"Clear Strings\">");
+
     out.println("<form method=\"post\"");
 
     String url = "/"; // Relative path, so we don't need to change the url when switching between debug and deploy modes
