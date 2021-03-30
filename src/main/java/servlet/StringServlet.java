@@ -137,7 +137,8 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
                 
                 allVals_AL = allVals_AL_temp; // Set original array equal to new array
             }
-        } else if (selectedOption.equals("reverse")) 
+        } 
+        else if (selectedOption.equals("reverse")) 
         { // Return the strings in reverse-sorted order (eg, “Tim,” “Kent,” “Julia,” “Grace,” “Anita”)
             Collections.sort(allVals_AL);
             Collections.reverse(allVals_AL);
@@ -281,9 +282,9 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs,
         }
     }
 
-    out.println("<input type=button name=clear value=\"Clear Strings\">");
-    
     out.println("</table>");
+    
+    out.println("<input type=button name=clear value=\"Clear Strings\">");
     out.println("");
 
     out.println("<h3>Please select an option</h3>");
