@@ -201,9 +201,13 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     EntryManager entryManager = new EntryManager();
     entryManager.setFilePath(RESOURCE_FILE);
     Entries currEntries = entryManager.getAll();
-    if (currEntries == null) {
+    
+    if (currEntries == null) 
+    {
         PrintBody(out);
-    } else {
+    } 
+    else 
+    {
         PrintBody(out, "", currEntries.entries.toArray(new String[0]), null);
     }
 
@@ -246,7 +250,6 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs,
 
     out.println("<h2>Create a List of Strings</h2>");
     out.println("<p>Enter a list of strings in the table below. Click the \"+\" key to add a row, and click the \"x\" key to delete a row </p>");
-    out.println("<input type=button name=clear value=\"Clear Strings\">");
 
     out.println("<form method=\"post\"");
 
@@ -275,13 +278,11 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs,
             out.println(String.format("<td><input type=\"text\" name=\"string[]\" value=\"%s\"></td>", inputs[i]));
             out.println("<td><input type=button name=dyntbl1_delRow value=\" x \" onClick=\"delRow()\"></td>");
             out.println("</tr>");
-
         }
     }
-    out.println("<tr>");
-    out.println("<td><input type=button name=clear value=\"Clear Strings\"></td>");
-    out.println("</tr>");
 
+    out.println("<input type=button name=clear value=\"Clear Strings\">");
+    
     out.println("</table>");
     out.println("");
 
