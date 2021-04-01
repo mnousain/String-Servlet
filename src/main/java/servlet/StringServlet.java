@@ -295,7 +295,7 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs,
     out.println("</table>");
     
     out.println("<br>");    
-    out.println("<input type=button name=clear value=\"Clear Strings\">");
+    out.println("<button name=clear>Clear Strings</button>");
     out.println("");
 
     out.println("<h3>Please select an option</h3>");
