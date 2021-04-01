@@ -189,6 +189,7 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
     PrintHead(out);
+    
     if(newEntries == null) 
     {
         error += "<li>Could not save entries.</li>";
@@ -293,9 +294,9 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs,
     }
 
     out.println("</table>");
-    
     out.println("<br>");    
-    out.println("<button name=clear>Clear Strings</button>");
+    
+    out.println("<input type=button name=clear value=\"Clear Strings\" onclick=\"window.location.href='?action=clear'\">");
     out.println("");
 
     out.println("<h3>Please select an option</h3>");
