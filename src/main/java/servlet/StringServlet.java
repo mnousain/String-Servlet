@@ -66,6 +66,20 @@ public class EntryManager
         
         return entries;
     }
+    
+    private void clear()
+    {
+        
+        try
+        {
+            FileWriter fileWriter = new FileWriter(filePath, false);
+            fileWriter.close();
+
+        }
+        catch (IOException ioException) 
+        {
+        }
+    }
 
     private Entries getAll(){
         Entries entries = new Entries();
@@ -206,6 +220,8 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
 
 public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 {
+    String action = request.getParameter("action");
+
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
     PrintHead(out);
@@ -213,6 +229,11 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     EntryManager entryManager = new EntryManager();
     entryManager.setFilePath(RESOURCE_FILE);
     Entries currEntries = entryManager.getAll();
+    
+    if(action != null && action.equals("clear"))
+    {
+        entryManager.clear();
+    }
     
     if (currEntries == null) 
     {
@@ -262,10 +283,13 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs,
 
     out.println("<h2>Create a List of Strings</h2>");
     out.println("<p>Enter a list of strings in the table below. Click the \"+\" key to add a row, and click the \"x\" key to delete a row </p>");
-
+    
+    String url = "/"; // Relative path, so we don't need to change the url when switching between debug and deploy modes
+    
+    //out.println("<input type=button value=\"Clear Strings\" onclick=\"window.location.href='?action=clear'\">");
+    
     out.println("<form method=\"post\"");
 
-    String url = "/"; // Relative path, so we don't need to change the url when switching between debug and deploy modes
     out.println(" action=\"" + url + "\" onsubmit=\"return validateString()\">");
     out.println("");
 
@@ -295,8 +319,7 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs,
 
     out.println("</table>");
     out.println("<br>");    
-    
-    out.println("<input type=button name=clear value=\"Clear Strings\" onclick=\"window.location.href='?action=clear'\">");
+    out.println("<input type=button value=\"Clear Strings\" onclick=\"window.location.assign('?action=clear')\">");
     out.println("");
 
     out.println("<h3>Please select an option</h3>");
