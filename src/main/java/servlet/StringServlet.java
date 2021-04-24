@@ -193,7 +193,6 @@ public void doPost (HttpServletRequest request, HttpServletResponse response)
     if (!returnString.equals("")) 
     {
         StringBuffer sb = new StringBuffer();
-        sb.append("<b>Result:</b><br><br>");
         sb.append(returnString);
         processedResult = sb.toString();
     }
@@ -348,12 +347,13 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs,
     out.println("<label for=\"noDuplicates\">Remove Duplicate Entries (when sorting)</label><br>");
 
     out.println("<br>");
-    out.println("<input type=\"submit\" name=\"Submit\" value=\"Submit Strings\">");
+    out.println("<button onClick name=\"Submit\" value=\"Submit Strings\">");
 
     // Print the result
     // out.println("<h3>Result:</h3>");
     // out.println("");
-    out.println("<p>" + displayedResult + "</p>");
+    out.println("<p><b>Result:</b><br><br></p>");
+    out.println("<p id=\"result\"></p>");
     out.println("</form>");
 
 
