@@ -268,7 +268,7 @@ private void PrintHead(PrintWriter out)
 private void PrintBody(PrintWriter out, String displayedResult, String[] inputs, String error)
 {
     out.println("<body>");
-    out.println("<h1 align=\"center\">SWE-432: Assignment 6</h1>");
+    out.println("<h1 align=\"center\">SWE-432: Assignment 7</h1>");
     out.println("<h2 align=\"center\">Collaborators: Mason Nousain, Aaron Salenga, Taha Amir</h2>");
     out.println("");
 
