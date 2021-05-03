@@ -24,6 +24,8 @@ public class StringServlet extends HttpServlet
 
 static String Style = "https://mason.gmu.edu/~mnousain/style.css";
 static String Script = "https://mason.gmu.edu/~mnousain/table.js";
+// static String Script2 = "../../webapp/WEB-INF/javascript/asyncSubmit.js";
+static String Script2 = "https://mason.gmu.edu/~asalenga/swe432/asyncSubmit.js";
 
 static enum Data {AGE, NAME};
 static String RESOURCE_FILE = "entries.json";
@@ -258,6 +260,7 @@ private void PrintHead(PrintWriter out)
     out.println("<title>String Servlet</title>");
     out.println("<link rel=\"stylesheet\" href=\"" + Style  + "\">");
     out.println("<script type=\"text/javascript\" src=\"" + Script + "\"></script>");
+    out.println("<script type=\"text/javascript\" src=\"" + Script2 + "\"></script>");
     out.println("</head>");
     out.println("");
 } // End PrintHead
@@ -302,6 +305,7 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs,
     {
         out.println("<tr onMouseOver=\"dyntbl1.clickedRowIndex=this.rowIndex\">");
         out.println("<td><input type=\"text\" name=\"string[]\"></td>");
+        // out.println("<td><input type=\"text\" name=\"string[]\" onkeyup=\"startRequest()\" ></td>");
         out.println("<td><input type=button name=dyntbl1_delRow value=\" x \" onClick=\"delRow()\"></td>");
         out.println("</tr>");
     }
@@ -311,6 +315,7 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs,
         {
             out.println("<tr onMouseOver=\"dyntbl1.clickedRowIndex=this.rowIndex\">");
             out.println(String.format("<td><input type=\"text\" name=\"string[]\" value=\"%s\"></td>", inputs[i]));
+            // out.println(String.format("<td><input type=\"text\" name=\"string[]\" value=\"%s\" onkeyup=\"startRequest()\" ></td>", inputs[i]));
             out.println("<td><input type=button name=dyntbl1_delRow value=\" x \" onClick=\"delRow()\"></td>");
             out.println("</tr>");
         }
@@ -347,7 +352,7 @@ private void PrintBody(PrintWriter out, String displayedResult, String[] inputs,
     out.println("<label for=\"noDuplicates\">Remove Duplicate Entries (when sorting)</label><br>");
 
     out.println("<br>");
-    out.println("<button onClick name=\"Submit\" value=\"Submit Strings\">");
+    out.println("<button onClick=\"startRequest()\" name=\"Submit\" value=\"Submit Strings\">Submit Strings</button>");
 
     // Print the result
     // out.println("<h3>Result:</h3>");
